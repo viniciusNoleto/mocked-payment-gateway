@@ -1,0 +1,327 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Estilo "framed sheet": moldura em L (sidebar + barra superior) num tom de metal fosco,
+ * o trabalho numa folha branca com 1px de borda e 16px de raio, sem sombra.
+ * O dourado de moeda é a cor primária: ação principal, a marca e as moedas das cobranças.
+ */
+:root {
+  --radius: 0.5rem;
+
+  --frame: #f3f3f1;
+  --background: #ffffff;
+  --foreground: #16140f;
+  --card: #ffffff;
+  --card-foreground: #16140f;
+  --popover: #ffffff;
+  --popover-foreground: #16140f;
+
+  --primary: #d6a92b;
+  --primary-foreground: #1d1806;
+  --secondary: #efeeea;
+  --secondary-foreground: #16140f;
+  --muted: #f6f6f3;
+  --muted-foreground: #5d594f;
+  --accent: #efeeea;
+  --accent-foreground: #16140f;
+  --destructive: #c4242a;
+
+  --border: #e8e7e2;
+  --rule: #f0efeb;
+  --input: #d6d2c7;
+  --ring: #b68a14;
+
+  /* Metal da moeda, do brilho ao cunho */
+  --gold-50: #fbf6e6;
+  --gold-100: #f6eac2;
+  --gold-300: #ebcd6c;
+  --gold-400: #e0b843;
+  --gold-500: #d6a92b;
+  --gold-600: #b68a14;
+  --gold-700: #8c6a0e;
+  --gold-800: #6b510b;
+  --gold-900: #3d2f08;
+
+  --nickel-200: #e4e2dc;
+  --nickel-400: #b3afa5;
+  --nickel-600: #7b776d;
+
+  --positive: #247b50;
+  --pill-positive-bg: #dcfae5;
+  --pill-positive-ink: #04250e;
+  --negative: #c4242a;
+  --pill-negative-bg: #ffedea;
+  --pill-negative-ink: #831c1e;
+  --pill-pending-bg: #fbf3d9;
+  --pill-pending-ink: #5c4508;
+  --pill-neutral-bg: #efede8;
+  --pill-neutral-ink: #3f3c35;
+
+  /* Texto em três níveis: tinta, corpo secundário e meta */
+  --body: #3f3c35;
+  --nav-ink: #4f4b42;
+  --nav-icon: #6b675e;
+  --nav-active: #e6e5e0;
+  --row-selected: #efede7;
+  --hover: rgb(0 0 0 / 0.04);
+  --link: var(--gold-700);
+  --code-bg: #1c1a15;
+  --code-ink: #ebebe6;
+  --code-muted: #b9b3a3;
+  --method-get: #1f5f8b;
+}
+
+/* Escuro: neutro de verdade (sem azul-marinho), o ouro mais claro para ler sobre o preto */
+.dark {
+  --frame: #0c0c0b;
+  --background: #151514;
+  --foreground: #f2f1ed;
+  --card: #151514;
+  --card-foreground: #f2f1ed;
+  --popover: #1d1d1b;
+  --popover-foreground: #f2f1ed;
+
+  --primary: #e0b843;
+  --primary-foreground: #1d1806;
+  --secondary: #242422;
+  --secondary-foreground: #f2f1ed;
+  --muted: #1e1e1c;
+  --muted-foreground: #a9a69d;
+  --accent: #242422;
+  --accent-foreground: #f2f1ed;
+  --destructive: #e5566f;
+
+  --border: #2a2a27;
+  --rule: #222220;
+  --input: #3a3a36;
+  --ring: #e0b843;
+
+  --gold-50: #2a2312;
+  --gold-100: #3d3214;
+  --gold-700: #e8c45c;
+  --gold-800: #f0d27a;
+  --gold-900: #3d2f08;
+
+  --nickel-200: #34342f;
+  --nickel-400: #6f6c64;
+  --nickel-600: #a9a69d;
+
+  --positive: #3fc07a;
+  --pill-positive-bg: #172a1d;
+  --pill-positive-ink: #5fd393;
+  --negative: #e5566f;
+  --pill-negative-bg: #2c1a20;
+  --pill-negative-ink: #f0899b;
+  --pill-pending-bg: #2f2814;
+  --pill-pending-ink: #f0d27a;
+  --pill-neutral-bg: #262624;
+  --pill-neutral-ink: #c9c6bd;
+
+  --body: #d6d3ca;
+  --nav-ink: #c2bfb6;
+  --nav-icon: #8f8c84;
+  --nav-active: #232321;
+  --row-selected: #22221f;
+  --hover: rgb(255 255 255 / 0.04);
+  --link: #e8c45c;
+  --code-bg: #0c0c0b;
+  --code-ink: #ebebe6;
+  --code-muted: #a39d8e;
+  --method-get: #7fb6e0;
+}
+
+@theme inline {
+  --font-sans: "IBM Plex Sans", Inter, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-frame: var(--frame);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-rule: var(--rule);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-gold-50: var(--gold-50);
+  --color-gold-100: var(--gold-100);
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+  --color-gold-800: var(--gold-800);
+  --color-gold-900: var(--gold-900);
+  --color-nickel-200: var(--nickel-200);
+  --color-nickel-400: var(--nickel-400);
+  --color-nickel-600: var(--nickel-600);
+
+  --color-positive: var(--positive);
+  --color-body: var(--body);
+  --color-link: var(--link);
+  --color-hover: var(--hover);
+  --color-negative: var(--negative);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sheet: 16px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-frame text-foreground font-sans;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  ::selection {
+    background: var(--gold-100);
+    color: var(--gold-900);
+  }
+}
+
+@utility num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Linha nova chegando pelo stream: um brilho de metal que se apaga. */
+@keyframes row-arrive {
+  from {
+    background-color: var(--gold-50);
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+.row-arrive {
+  animation: row-arrive 1.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* A moeda é cunhada: um giro curto quando a cobrança é paga. */
+@keyframes coin-mint {
+  0% { transform: rotateY(0deg) scale(1); }
+  50% { transform: rotateY(90deg) scale(1.08); }
+  100% { transform: rotateY(0deg) scale(1); }
+}
+
+.coin-mint {
+  animation: coin-mint 0.6s cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.live-pulse {
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row-arrive {
+    animation: none;
+  }
+
+  .coin-mint,
+  .live-pulse {
+    animation: none;
+  }
+}
+
+/* Texto corrido da documentação */
+.docs-prose {
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.docs-prose > * + * {
+  margin-top: 16px;
+}
+
+.docs-prose h3 {
+  margin-top: 32px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.docs-prose ul,
+.docs-prose ol {
+  padding-left: 20px;
+}
+
+.docs-prose ul {
+  list-style: disc;
+}
+
+.docs-prose ol {
+  list-style: decimal;
+}
+
+.docs-prose li + li {
+  margin-top: 6px;
+}
+
+.docs-prose li::marker {
+  color: var(--nickel-600);
+}
+
+.docs-prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--muted);
+  color: var(--foreground);
+  overflow-wrap: anywhere;
+}
+
+.docs-prose a {
+  color: var(--link);
+  text-underline-offset: 3px;
+}
+
+.docs-prose a:hover {
+  text-decoration: underline;
+}
+
+.docs-prose strong {
+  font-weight: 600;
+}

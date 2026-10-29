@@ -1,0 +1,26 @@
+# Nuxt
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+coverage
+
+# Env
+.env
+.env.*
+!.env.example
+.taste-skill

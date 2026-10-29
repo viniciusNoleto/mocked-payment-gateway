@@ -1,0 +1,53 @@
+services:
+  mocked-payment-gateway-app:
+    container_name: mocked-payment-gateway-app
+    user: node
+    restart: unless-stopped
+    tty: true
+    build:
+      dockerfile: ./configs/docker/node/Dockerfile.local
+    env_file: .env
+    environment:
+      POSTGRES_HOST: mocked-payment-gateway-postgres
+      POSTGRES_PORT: 5432
+    volumes:
+      - ./:/app/
+    ports:
+      - ${APP_PORT:-3000}:3000
+    # Permite entregar webhooks para projetos rodando no host (http://host.docker.internal:PORTA/...)
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      - mocked-payment-gateway-network
+    depends_on:
+      mocked-payment-gateway-postgres:
+        condition: service_healthy
+
+  mocked-payment-gateway-postgres:
+    container_name: mocked-payment-gateway-postgres
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+    volumes:
+      - mocked-payment-gateway-postgres-data:/var/lib/postgresql/data
+    networks:
+      - mocked-payment-gateway-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-mocked_payment_gateway}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  mocked-payment-gateway-network:
+    name: mocked-payment-gateway-network
+    driver: bridge
+
+volumes:
+  mocked-payment-gateway-postgres-data:
+    name: mocked-payment-gateway-postgres-data
